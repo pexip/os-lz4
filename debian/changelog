@@ -1,3 +1,9 @@
+lz4 (0.0~r131-2pexip1) pexip; urgency=medium
+
+  * Prepare Pexip packaging
+
+ -- John-Mark Bell <jmb@pexip.com>  Wed, 01 Aug 2018 19:21:00 +0000
+
 lz4 (0.0~r131-2) unstable; urgency=medium
 
   * Add support cross compile. (Closes: #814687)
