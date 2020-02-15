@@ -8,7 +8,7 @@ Section: utils
 Homepage: https://github.com/Cyan4973/lz4
 Vcs-Git: git://anonscm.debian.org/collab-maint/lz4.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/lz4.git;a=summary
-XS-Pexip-Upstream: http://ftp.debian.org/debian/ stretch
+XS-Pexip-Upstream: http://ftp.debian.org/debian/ buster
 
 Package: liblz4-dev
 Section: libdevel
