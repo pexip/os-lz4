@@ -1,13 +1,13 @@
 Source: lz4
-Priority: extra
+Priority: optional
 Maintainer: Pexip AS <packaging@pexip.com>
 XSBC-Pexip-Original-Maintainer: Nobuhiro Iwamatsu <iwamatsu@debian.org>
 Build-Depends: debhelper (>= 9.0.0)
-Standards-Version: 3.9.6
+Standards-Version: 4.1.0
 Section: utils
 Homepage: https://github.com/Cyan4973/lz4
-Vcs-Git: git://anonscm.debian.org/collab-maint/lz4.git
-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/lz4.git;a=summary
+Vcs-Browser: https://salsa.debian.org/debian/lz4
+Vcs-Git: https://salsa.debian.org/debian/lz4.git
 XS-Pexip-Upstream: http://ftp.debian.org/debian/ buster
 
 Package: liblz4-dev
@@ -28,6 +28,8 @@ Section: libs
 Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Replaces: liblz4-1a
+Breaks: liblz4-1a
 Multi-Arch: same
 Description: Fast LZ compression algorithm library - runtime
  LZ4 is a very fast lossless compression algorithm, providing compression speed
@@ -37,26 +39,14 @@ Description: Fast LZ compression algorithm library - runtime
  .
  This package includes the shared library.
 
-Package: liblz4-1-dbg
-Section: debug
-Architecture: any
-Pre-Depends: ${misc:Pre-Depends}
-Depends: ${shlibs:Depends}, ${misc:Depends}, liblz4-1 (= ${binary:Version})
-Replaces: liblz4-0.0-dbg (<= 0.0~r113-1)
-Conflicts: liblz4-0.0-dbg (<= 0.0~r113-1)
-Description: Fast LZ compression algorithm library - Debugging Symbols
- LZ4 is a very fast lossless compression algorithm, providing compression speed
- at 400 MB/s per core, scalable with multi-cores CPU. It also features an
- extremely fast decoder, with speed in multiple GB/s per core, typically
- reaching RAM speed limits on multi-core systems.
- .
- This package contains the debugging symbols.
-
-Package: liblz4-tool
+Package: lz4
 Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}, liblz4-1 (= ${binary:Version})
 Multi-Arch: foreign
+Provides: liblz4-tool
+Replaces: liblz4-tool (<< 1.8.0-1)
+Conflicts: liblz4-tool (<< 1.8.0-1)
 Description: Fast LZ compression algorithm library - tool
  LZ4 is a very fast lossless compression algorithm, providing compression speed
  at 400 MB/s per core, scalable with multi-cores CPU. It also features an
@@ -65,3 +55,16 @@ Description: Fast LZ compression algorithm library - tool
  .
  This package contains files that is tool using liblz4.
 
+Package: liblz4-tool
+Architecture: all
+Section: oldlibs
+Depends:
+ lz4,
+ ${misc:Depends},
+Description: Fast LZ compression algorithm library - transitional package
+ LZ4 is a very fast lossless compression algorithm, providing compression speed
+ at 400 MB/s per core, scalable with multi-cores CPU. It also features an
+ extremely fast decoder, with speed in multiple GB/s per core, typically
+ reaching RAM speed limits on multi-core systems.
+ .
+ This is a transitional package. It can be safely removed.

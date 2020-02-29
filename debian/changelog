@@ -1,3 +1,93 @@
+lz4 (1.8.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update d/patches.
+  * Update d/copyright.
+    Remove unused file paragraph.
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Tue, 25 Sep 2018 22:26:58 +0900
+
+lz4 (1.8.2-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Add debian/watch file.
+  * Update debian/liblz4-1.symbols.
+    Add APIs following:
+      - LZ4_attach_HC_dictionary@Base
+      - LZ4_attach_dictionary@Base
+      - LZ4_compress_fast_extState_fastReset@Base
+      - LZ4_decoderRingBufferSize@Base
+      - LZ4_resetStream_fast@Base
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Mon, 14 May 2018 16:45:54 +0900
+
+lz4 (1.8.1.2-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update static link problem fix.
+    In this fix, add LZ4F_PUBLISH_STATIC_FUNCTIONS to compile option.
+    This makes the following API available for reference to the library.
+      - LZ4F_compressBegin_usingCDict@Base
+      - LZ4F_compressFrame_usingCDict@Base
+      - LZ4F_createCDict@Base
+      - LZ4F_decompress_usingDict@Base
+      - LZ4F_freeCDict@Base
+      - LZ4F_getErrorCode@Base
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Fri, 13 Apr 2018 10:39:09 +0900
+
+lz4 (1.8.0-5) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Thu, 12 Apr 2018 11:46:55 +0900
+
+lz4 (1.8.0-4) experimental; urgency=medium
+
+  * Add liblz4-tool transitional package (Closes: #894279)
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Thu, 12 Apr 2018 08:31:07 +0900
+
+lz4 (1.8.0-3) experimental; urgency=medium
+
+  * Change package name to liblz4-1.
+    Do not need to change SONAME, so revert it.
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Wed, 11 Apr 2018 09:02:37 +0900
+
+lz4 (1.8.0-2) experimental; urgency=medium
+
+  * Change package name to liblz4-1a.
+    From 1.8.0, lz4 removed some API in 1.8.0, but upstream dose not bump
+    the SONAME. We changed to -1a to maintain compatibility.
+  * Fix Static link. (#882974)
+  * Update debian/copyright.
+    - Fix insecure copyright format URI.
+    - Update copyright information.
+  * Update Vcs-Browser and Vcs-Git to use salsa.
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Wed, 08 Nov 2017 13:26:35 +0900
+
+lz4 (1.8.0-1) experimental; urgency=medium
+
+  * New upstream release. (Closes: #860168, #821740)
+  * Bump Standards-Version to 4.1.0.
+  * Remove patches/ignore_rm_fail.patch.
+  * Update symbols file.
+  * Rename liblz4-tool to lz4. (Closes: #781234)
+  * Change Priority to optional. (Closes: #816620)
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Thu, 31 Aug 2017 08:07:55 +0900
+
+lz4 (1.7.5-1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+  * Bump Standards-Version to 3.9.8.
+  * Update symbols file.
+  * Add patches/ignore_rm_fail.patch.
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Mon, 19 Jun 2017 09:09:28 +0900
+
 lz4 (0.0~r131-2+b1pexip1) pexip; urgency=medium
 
   * Prepare Pexip packaging

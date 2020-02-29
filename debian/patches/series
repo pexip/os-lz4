@@ -1,1 +1,3 @@
-0001-Disable-valgrind.patch
+0001-Show-build-info.patch
+0002-Fix-static-link.patch
+0003-Ignore-test.patch
