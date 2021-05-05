@@ -1,10 +1,65 @@
-lz4 (1.8.3-1+deb10u1) buster-security; urgency=high
+lz4 (1.9.3-2) unstable; urgency=medium
 
-  * Non-maintainer upload by the Security Team.
-  * Fix potential memory corruption with negative memmove() size
-    (CVE-2021-3520) (Closes: #987856)
+  * Fix CVE-2021-3520. (Closes: #987856)
+    - This fixed potential memory corruption with negative memmove() size.
+    - Add d/patches/0005-CVE-2021-3520.patch
 
- -- Salvatore Bonaccorso <carnil@debian.org>  Sun, 16 May 2021 21:23:00 +0200
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Wed, 05 May 2021 16:29:57 +0900
+
+lz4 (1.9.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update d/control.
+    - Use debhelper-compat, and update to 13.
+    - Bump Standards-Version to 4.5.0 (no changes)
+  * Add d/upstream/metadata.
+  * Update d/liblz4-1.symbols.
+    Add LZ4F_headerSize@Base 1.9.3.
+  * Update d/patches.
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Tue, 01 Dec 2020 06:07:12 +0900
+
+lz4 (1.9.2-2) unstable; urgency=medium
+
+  * Fix FTCBFS: Annotate the python3 dependency. (Closes: #944559)
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Tue, 12 Nov 2019 07:58:47 +0900
+
+lz4 (1.9.2-1) unstable; urgency=medium
+
+  * New upstream release. (Closes: #943680)
+    Fix CVE-2019-17543.
+  * Add d/patches/change-optimize.patch.
+    Change optimize and add debugging information.
+  * Update d/control.
+    Add python3 to B-D.
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Tue, 29 Oct 2019 19:19:36 +0900
+
+lz4 (1.9.1-2) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Tue, 20 Aug 2019 22:43:48 +0900
+
+lz4 (1.9.1-1) experimental; urgency=medium
+
+  * New upstream release.
+  * Update d/patches.
+  * Update debian/liblz4-1.symbols.
+    Add APIs following:
+      - LZ4F_getBlockSize@Base
+      - LZ4_compress_HC_continue_destSize@Base
+      - LZ4_compress_HC_destSize@Base
+      - LZ4_initStream@Base
+      - LZ4_initStreamHC@Base
+      - LZ4_resetStreamHC_fast@Base
+    Remove APIs following:
+      - LZ4_attach_HC_dictionary@Base
+      - LZ4_attach_dictionary@Base
+      - LZ4_compress_fast_extState_fastReset@Base
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Fri, 24 May 2019 07:51:04 +0900
 
 lz4 (1.8.3-1) unstable; urgency=medium
 
