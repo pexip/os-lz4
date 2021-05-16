@@ -1,3 +1,11 @@
+lz4 (1.8.3-1+deb10u1) buster-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Fix potential memory corruption with negative memmove() size
+    (CVE-2021-3520) (Closes: #987856)
+
+ -- Salvatore Bonaccorso <carnil@debian.org>  Sun, 16 May 2021 21:23:00 +0200
+
 lz4 (1.8.3-1) unstable; urgency=medium
 
   * New upstream release.
