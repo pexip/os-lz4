@@ -1,37 +1,32 @@
-From d4a7927ce764832531f234cfa87f4aa2a3dc6588 Mon Sep 17 00:00:00 2001
-From: Nobuhiro Iwamatsu <iwamatsu@debian.org>
-Date: Tue, 15 May 2018 07:49:35 +0900
-Subject: [PATCH] Fix static link
+From 31bb256feeb8fae577f3e788fa1d535ac3d321db Mon Sep 17 00:00:00 2001
+From: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+Date: Fri, 18 Dec 2020 23:50:45 +0900
+Subject: [PATCH 2/4] Fix static link
 
-Signed-off-by: Nobuhiro Iwamatsu <iwamatsu@debian.org>
+Signed-off-by: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
 ---
  programs/Makefile | 6 +++---
- tests/Makefile    | 3 ++-
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ tests/Makefile    | 4 +++-
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/programs/Makefile b/programs/Makefile
-index 72bdcaa..0be2214 100644
+index 288f2c4..2df53c1 100644
 --- a/programs/Makefile
 +++ b/programs/Makefile
-@@ -41,7 +41,7 @@ LIBVER_MINOR := $(shell echo $(LIBVER_MINOR_SCRIPT))
- LIBVER_PATCH := $(shell echo $(LIBVER_PATCH_SCRIPT))
- LIBVER   := $(shell echo $(LIBVER_SCRIPT))
+@@ -80,10 +80,10 @@ lz4-exe.o: lz4-exe.rc
+ 	$(WINDRES) -i lz4-exe.rc -o lz4-exe.o
  
--SRCFILES := $(sort $(wildcard $(LZ4DIR)/*.c) $(wildcard *.c))
-+SRCFILES := $(sort $(wildcard $(LZ4DIR)/xxhash.c) $(wildcard *.c))
- OBJFILES := $(SRCFILES:.c=.o)
- 
- CPPFLAGS += -I$(LZ4DIR) -DXXH_NAMESPACE=LZ4_
-@@ -76,7 +76,7 @@ all32: CFLAGS+=-m32
- all32: all
- 
- lz4: $(OBJFILES)
+ lz4: $(OBJFILES) lz4-exe.o
 -	$(CC) $(FLAGS) $^ -o $@$(EXT)
 +	$(CC) $(FLAGS) $^ -o $@$(EXT) -L ../lib -llz4
+ else
+ lz4: $(OBJFILES)
+-	$(CC) $(FLAGS) $(OBJFILES) -o $@$(EXT) $(LDLIBS)
++	$(CC) $(FLAGS) $(OBJFILES) -o $@$(EXT) $(LDLIBS) -L ../lib -llz4
+ endif
  
- lz4-release: DEBUGFLAGS=
- lz4-release: lz4
-@@ -86,7 +86,7 @@ lz4c: lz4
+ .PHONY: lz4-release
+@@ -107,7 +107,7 @@ lz4c: lz4
  
  lz4c32: CFLAGS += -m32
  lz4c32 : $(SRCFILES)
@@ -41,18 +36,19 @@ index 72bdcaa..0be2214 100644
  lz4.1: lz4.1.md $(LIBVER_SRC)
  	cat $< | $(MD2ROFF) $(MD2ROFF_FLAGS) | sed -n '/^\.\\\".*/!p' > $@
 diff --git a/tests/Makefile b/tests/Makefile
-index d238561..559d0cd 100644
+index 55e43ab..aec3f83 100644
 --- a/tests/Makefile
 +++ b/tests/Makefile
-@@ -43,6 +43,7 @@ CFLAGS  += $(DEBUGFLAGS) $(MOREFLAGS)
+@@ -43,6 +43,8 @@ CFLAGS  += $(DEBUGFLAGS) $(MOREFLAGS)
  CPPFLAGS+= -I$(LZ4DIR) -I$(PRGDIR) -DXXH_NAMESPACE=LZ4_
  FLAGS    = $(CFLAGS) $(CPPFLAGS) $(LDFLAGS)
  
 +export LD_LIBRARY_PATH += $(LZ4DIR)
++
+ include ../Makefile.inc
  
- # Define *.exe as extension for Windows systems
- ifneq (,$(filter Windows%,$(OS)))
-@@ -69,7 +70,7 @@ all32: CFLAGS+=-m32
+ LZ4 := $(PRGDIR)/lz4$(EXT)
+@@ -62,7 +64,7 @@ all32: CFLAGS+=-m32
  all32: all
  
  lz4:
@@ -62,5 +58,5 @@ index d238561..559d0cd 100644
  lib liblz4.pc:
  	$(MAKE) -C $(LZ4DIR) $@ CFLAGS="$(CFLAGS)"
 -- 
-2.17.0
+2.29.2
 

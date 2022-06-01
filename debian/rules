@@ -28,14 +28,13 @@ endif
 	dh $@
 
 override_dh_auto_build:
-	dh_auto_build -- CC=$(CC)
+	dh_auto_build -- CC=$(CC) V=1
 
 override_dh_auto_install:
-	dh_auto_install -- CC=$(CC)
-
-override_dh_install:
-	make install DESTDIR=$$(pwd)/debian/tmp LIBDIR=$(DESTDIR)/usr/lib/$(DEB_HOST_MULTIARCH) CC=$(CC)
-	dh_install
+	dh_auto_install -- \
+		CC=$(CC) \
+		DESTDIR=$$(pwd)/debian/tmp \
+		LIBDIR=$(DESTDIR)/usr/lib/$(DEB_HOST_MULTIARCH)
 
 override_dh_auto_test:
 ifeq "$(disable_test)" "0"
