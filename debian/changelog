@@ -1,3 +1,9 @@
+lz4 (1.9.3-2pexip1) pexip; urgency=medium
+
+  * Initial bullseye build
+
+ -- Mark Hymers <mark.hymers@pexip.com>  Thu, 02 Jun 2022 14:42:34 +0100
+
 lz4 (1.9.3-2) unstable; urgency=medium
 
   * Fix CVE-2021-3520. (Closes: #987856)
