@@ -1,7 +1,7 @@
-From 31bb256feeb8fae577f3e788fa1d535ac3d321db Mon Sep 17 00:00:00 2001
+From 707fbfb32f82f253a1792347ce76bca98679c8d8 Mon Sep 17 00:00:00 2001
 From: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
-Date: Fri, 18 Dec 2020 23:50:45 +0900
-Subject: [PATCH 2/4] Fix static link
+Date: Sun, 28 Aug 2022 09:06:14 +0900
+Subject: [PATCH 1/2] Fix static link
 
 Signed-off-by: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
 ---
@@ -10,10 +10,10 @@ Signed-off-by: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
  2 files changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/programs/Makefile b/programs/Makefile
-index 288f2c4..2df53c1 100644
+index ace0d03..fc4d6f1 100644
 --- a/programs/Makefile
 +++ b/programs/Makefile
-@@ -80,10 +80,10 @@ lz4-exe.o: lz4-exe.rc
+@@ -91,10 +91,10 @@ lz4-exe.o: lz4-exe.rc
  	$(WINDRES) -i lz4-exe.rc -o lz4-exe.o
  
  lz4: $(OBJFILES) lz4-exe.o
@@ -26,7 +26,7 @@ index 288f2c4..2df53c1 100644
  endif
  
  .PHONY: lz4-release
-@@ -107,7 +107,7 @@ lz4c: lz4
+@@ -118,7 +118,7 @@ lz4c: lz4
  
  lz4c32: CFLAGS += -m32
  lz4c32 : $(SRCFILES)
@@ -34,9 +34,9 @@ index 288f2c4..2df53c1 100644
 +	$(CC) $(FLAGS) $^ -o $@$(EXT) -L ../lib -llz4
  
  lz4.1: lz4.1.md $(LIBVER_SRC)
- 	cat $< | $(MD2ROFF) $(MD2ROFF_FLAGS) | sed -n '/^\.\\\".*/!p' > $@
+ 	cat $< | $(MD2ROFF) $(MD2ROFF_FLAGS) | $(SED) -n '/^\.\\\".*/!p' > $@
 diff --git a/tests/Makefile b/tests/Makefile
-index 55e43ab..aec3f83 100644
+index 93a5581..b48070a 100644
 --- a/tests/Makefile
 +++ b/tests/Makefile
 @@ -43,6 +43,8 @@ CFLAGS  += $(DEBUGFLAGS) $(MOREFLAGS)
@@ -53,10 +53,10 @@ index 55e43ab..aec3f83 100644
  
  lz4:
 -	$(MAKE) -C $(PRGDIR) $@ CFLAGS="$(CFLAGS)"
-+	# $(MAKE) -C $(PRGDIR) $@ CFLAGS="$(CFLAGS)"
++	#$(MAKE) -C $(PRGDIR) $@ CFLAGS="$(CFLAGS)"
  
  lib liblz4.pc:
  	$(MAKE) -C $(LZ4DIR) $@ CFLAGS="$(CFLAGS)"
 -- 
-2.29.2
+2.36.1
 
