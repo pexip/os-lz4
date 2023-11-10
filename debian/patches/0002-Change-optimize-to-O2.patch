@@ -1,60 +1,51 @@
-From 9b0ec66d6e7029d2ea9a678c1b09db0276e23467 Mon Sep 17 00:00:00 2001
+From 51bdc803b88dc76c79922f8fee2bb82f95934544 Mon Sep 17 00:00:00 2001
 From: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
-Date: Fri, 18 Dec 2020 23:53:51 +0900
-Subject: [PATCH 4/4] change optimize
+Date: Sun, 28 Aug 2022 09:10:38 +0900
+Subject: [PATCH 2/2] Change optimize to O2
 
 Signed-off-by: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
 ---
- Makefile                    | 20 ++++++++++----------
- contrib/djgpp/Makefile      |  2 +-
- contrib/gen_manual/Makefile |  2 +-
- examples/Makefile           |  2 +-
- lib/Makefile                |  2 +-
- lib/dll/example/Makefile    |  2 +-
- programs/Makefile           |  2 +-
- tests/Makefile              |  2 +-
- 8 files changed, 17 insertions(+), 17 deletions(-)
+ Makefile                 | 14 +++++++-------
+ contrib/djgpp/Makefile   |  2 +-
+ examples/Makefile        |  4 ++--
+ lib/Makefile             |  2 +-
+ lib/dll/example/Makefile |  2 +-
+ programs/Makefile        |  2 +-
+ tests/Makefile           |  2 +-
+ 7 files changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index f4a9692..bb22669 100644
+index e70c3db..021db67 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -127,7 +127,7 @@ test:
- 	CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" $(MAKE) -C $(TESTDIR) $@
- 	CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" $(MAKE) -C $(EXDIR) $@
-
--clangtest: CFLAGS ?= -O3
-+clangtest: CFLAGS ?= -O2 -g
- clangtest: CFLAGS += -Werror -Wconversion -Wno-sign-conversion
- clangtest: CC = clang
- clangtest: clean
-@@ -138,18 +138,18 @@ clangtest: clean
-
+@@ -147,7 +147,7 @@ clangtest: clean
+ 	$(MAKE) -C $(TESTDIR) all CC=$(CC)
+ 
+ .PHONY: clangtest-native
+-clangtest-native: CFLAGS = -O3 -Werror -Wconversion -Wno-sign-conversion
++clangtest-native: CFLAGS = -O2 -g -Werror -Wconversion -Wno-sign-conversion
  clangtest-native: clean
  	clang -v
--	CFLAGS="-O3 -Werror -Wconversion -Wno-sign-conversion" $(MAKE) -C $(LZ4DIR)  all    CC=clang
--	CFLAGS="-O3 -Werror -Wconversion -Wno-sign-conversion" $(MAKE) -C $(PRGDIR)  native CC=clang
--	CFLAGS="-O3 -Werror -Wconversion -Wno-sign-conversion" $(MAKE) -C $(TESTDIR) native CC=clang
-+	CFLAGS="-O2 -g -Werror -Wconversion -Wno-sign-conversion" $(MAKE) -C $(LZ4DIR)  all    CC=clang
-+	CFLAGS="-O2 -g -Werror -Wconversion -Wno-sign-conversion" $(MAKE) -C $(PRGDIR)  native CC=clang
-+	CFLAGS="-O2 -g -Werror -Wconversion -Wno-sign-conversion" $(MAKE) -C $(TESTDIR) native CC=clang
-
+ 	$(MAKE) -C $(LZ4DIR)  all    CC=clang
+@@ -156,13 +156,13 @@ clangtest-native: clean
+ 
+ .PHONY: usan
  usan: CC      = clang
 -usan: CFLAGS  = -O3 -g -fsanitize=undefined -fno-sanitize-recover=undefined -fsanitize-recover=pointer-overflow
-+usan: CFLAGS  = -O2 -g -g -fsanitize=undefined -fno-sanitize-recover=undefined -fsanitize-recover=pointer-overflow
++usan: CFLAGS  = -O2 -g -fsanitize=undefined -fno-sanitize-recover=undefined -fsanitize-recover=pointer-overflow
  usan: LDFLAGS = $(CFLAGS)
  usan: clean
- 	CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" $(MAKE) test FUZZER_TIME="-T30s" NB_LOOPS=-i1
-
+ 	CC=$(CC) CFLAGS='$(CFLAGS)' LDFLAGS='$(LDFLAGS)' $(MAKE) test FUZZER_TIME="-T30s" NB_LOOPS=-i1
+ 
+ .PHONY: usan32
+-usan32: CFLAGS = -m32 -O3 -g -fsanitize=undefined
++usan32: CFLAGS = -m32 -O2 -g -fsanitize=undefined
+ usan32: LDFLAGS = $(CFLAGS)
  usan32: clean
--	CFLAGS="-m32 -O3 -g -fsanitize=undefined" $(MAKE) test FUZZER_TIME="-T30s" NB_LOOPS=-i1
-+	CFLAGS="-m32 -O2 -g -g -fsanitize=undefined" $(MAKE) test FUZZER_TIME="-T30s" NB_LOOPS=-i1
-
- SCANBUILD ?= scan-build
- SCANBUILD_FLAGS += --status-bugs -v --force-analyze-debug-code
-@@ -164,9 +164,9 @@ cppcheck:
+ 	$(MAKE) test FUZZER_TIME="-T30s" NB_LOOPS=-i1
+@@ -181,9 +181,9 @@ cppcheck:
  platformTest: clean
- 	echo "\n ---- test lz4 with $(CC) compiler ----"
+ 	@echo "\n ---- test lz4 with $(CC) compiler ----"
  	$(CC) -v
 -	CFLAGS="-O3 -Werror"         $(MAKE) -C $(LZ4DIR) all
 -	CFLAGS="-O3 -Werror -static" $(MAKE) -C $(PRGDIR) all
@@ -63,89 +54,85 @@ index f4a9692..bb22669 100644
 +	CFLAGS="-O2 -g -Werror -static" $(MAKE) -C $(PRGDIR) all
 +	CFLAGS="-O2 -g -Werror -static" $(MAKE) -C $(TESTDIR) all
  	$(MAKE) -C $(TESTDIR) test-platform
-
+ 
  .PHONY: versionsTest
-@@ -174,7 +174,7 @@ versionsTest: clean
- 	$(MAKE) -C $(TESTDIR) $@
-
- gpptest gpptest32: CC = "$(CXX) -Wno-deprecated"
--gpptest gpptest32: CFLAGS = -O3 -Wall -Wextra -Wundef -Wshadow -Wcast-align -Werror
-+gpptest gpptest32: CFLAGS = -O2 -g -Wall -Wextra -Wundef -Wshadow -Wcast-align -Werror
- gpptest32: CFLAGS += -m32
- gpptest gpptest32: clean
+@@ -196,7 +196,7 @@ test-freestanding:
+ 
+ .PHONY: cxxtest cxx32test
+ cxxtest cxx32test: CC := "$(CXX) -Wno-deprecated"
+-cxxtest cxx32test: CFLAGS = -O3 -Wall -Wextra -Wundef -Wshadow -Wcast-align -Werror
++cxxtest cxx32test: CFLAGS = -O2 -g -Wall -Wextra -Wundef -Wshadow -Wcast-align -Werror
+ cxx32test: CFLAGS += -m32
+ cxxtest cxx32test: clean
  	$(CXX) -v
 diff --git a/contrib/djgpp/Makefile b/contrib/djgpp/Makefile
-index 2ee4356..16712cb 100644
+index 8cd3580..d49382e 100644
 --- a/contrib/djgpp/Makefile
 +++ b/contrib/djgpp/Makefile
 @@ -19,7 +19,7 @@ CC = $(CROSS)-gcc
  AR = $(CROSS)-ar
  LD = $(CROSS)-gcc
-
+ 
 -CFLAGS ?= -O3 -std=gnu99 -Wall -Wextra -Wundef -Wshadow -Wcast-qual -Wcast-align -Wstrict-prototypes -pedantic -DLZ4_VERSION=\"$(RELEASE)\"
 +CFLAGS ?= -O2 -g -std=gnu99 -Wall -Wextra -Wundef -Wshadow -Wcast-qual -Wcast-align -Wstrict-prototypes -pedantic -DLZ4_VERSION=\"$(RELEASE)\"
  LDFLAGS ?= -s
  SRC = programs/bench.c programs/lz4io.c programs/lz4cli.c
  OBJ = $(SRC:.c=.o)
-diff --git a/contrib/gen_manual/Makefile b/contrib/gen_manual/Makefile
-index 4cf9d48..61999e0 100644
---- a/contrib/gen_manual/Makefile
-+++ b/contrib/gen_manual/Makefile
-@@ -30,7 +30,7 @@
- # ################################################################
-
-
--CXXFLAGS ?= -O3
-+CXXFLAGS ?= -O2 -g
- CXXFLAGS += -Wall -Wextra -Wcast-qual -Wcast-align -Wshadow -Wstrict-aliasing=1 -Wswitch-enum -Wno-comment
- CXXFLAGS += $(MOREFLAGS)
- FLAGS   = $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)
 diff --git a/examples/Makefile b/examples/Makefile
-index 5e51976..396611e 100644
+index 8be5c81..c52b5e5 100644
 --- a/examples/Makefile
 +++ b/examples/Makefile
 @@ -28,7 +28,7 @@
  # ##########################################################################
-
+ 
  CPPFLAGS += -I../lib
 -CFLAGS   ?= -O3
 +CFLAGS   ?= -O2 -g
  CFLAGS   += -std=gnu99 -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wstrict-prototypes
  FLAGS    := $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(MOREFLAGS)
-
+ 
+@@ -102,7 +102,7 @@ test : all $(LZ4)
+ 	$(LZ4) -vt $(TESTFILE).lz4
+ 
+ .PHONY: cxxtest
+-cxxtest: CFLAGS := -O3 -Wall -Wextra -Wundef -Wshadow -Wcast-align -Werror
++cxxtest: CFLAGS := -O2 -g -Wall -Wextra -Wundef -Wshadow -Wcast-align -Werror
+ cxxtest: clean
+ 	CC=$(CXX) $(MAKE) -C . all CFLAGS="$(CFLAGS)"
+ 
 diff --git a/lib/Makefile b/lib/Makefile
-index c412d22..248874d 100644
+index 06503cb..0ca1dad 100644
 --- a/lib/Makefile
 +++ b/lib/Makefile
-@@ -46,7 +46,7 @@ BUILD_SHARED:=yes
- BUILD_STATIC:=yes
-
+@@ -48,7 +48,7 @@ BUILD_STATIC:=yes
+ 
  CPPFLAGS+= -DXXH_NAMESPACE=LZ4_
+ CPPFLAGS+= $(MOREFLAGS)
 -CFLAGS  ?= -O3
 +CFLAGS  ?= -O2 -g
  DEBUGFLAGS:= -Wall -Wextra -Wcast-qual -Wcast-align -Wshadow \
               -Wswitch-enum -Wdeclaration-after-statement -Wstrict-prototypes \
               -Wundef -Wpointer-arith -Wstrict-aliasing=1
 diff --git a/lib/dll/example/Makefile b/lib/dll/example/Makefile
-index 43aaf17..c3d13df 100644
+index eb8cc1e..5dbd0ed 100644
 --- a/lib/dll/example/Makefile
 +++ b/lib/dll/example/Makefile
 @@ -28,7 +28,7 @@ LZ4DIR  := ../include
  LIBDIR  := ../static
  DLLDIR  := ../dll
-
+ 
 -CFLAGS  ?= -O3   # can select custom flags. For example : CFLAGS="-O2 -g" make
 +CFLAGS  ?= -O2 -g   # can select custom flags. For example : CFLAGS="-O2 -g" make
  CFLAGS  += -Wall -Wextra -Wundef -Wcast-qual -Wcast-align -Wshadow -Wswitch-enum \
             -Wdeclaration-after-statement -Wstrict-prototypes \
             -Wpointer-arith -Wstrict-aliasing=1
 diff --git a/programs/Makefile b/programs/Makefile
-index 2df53c1..e946772 100644
+index fc4d6f1..3cbd71a 100644
 --- a/programs/Makefile
 +++ b/programs/Makefile
-@@ -46,7 +46,7 @@ SRCFILES  = $(sort $(LIBFILES) $(wildcard *.c))
+@@ -47,7 +47,7 @@ SRCFILES  = $(sort $(LIBFILES) $(wildcard *.c))
  OBJFILES  = $(SRCFILES:.c=.o)
-
+ 
  CPPFLAGS += -I$(LZ4DIR) -DXXH_NAMESPACE=LZ4_
 -CFLAGS   ?= -O3
 +CFLAGS   ?= -O2 -g
@@ -153,11 +140,11 @@ index 2df53c1..e946772 100644
              -Wswitch-enum -Wdeclaration-after-statement -Wstrict-prototypes \
              -Wpointer-arith -Wstrict-aliasing=1
 diff --git a/tests/Makefile b/tests/Makefile
-index b071d28..5779732 100644
+index b48070a..ca398f5 100644
 --- a/tests/Makefile
 +++ b/tests/Makefile
 @@ -35,7 +35,7 @@ PYTHON  ?= python3
-
+ 
  DEBUGLEVEL?= 1
  DEBUGFLAGS = -g -DLZ4_DEBUG=$(DEBUGLEVEL)
 -CFLAGS  ?= -O3 # can select custom optimization flags. Example : CFLAGS=-O2 make
@@ -165,6 +152,6 @@ index b071d28..5779732 100644
  CFLAGS  += -Wall -Wextra -Wundef -Wcast-qual -Wcast-align -Wshadow \
             -Wswitch-enum -Wdeclaration-after-statement -Wstrict-prototypes \
             -Wpointer-arith -Wstrict-aliasing=1
---
-2.29.2
+-- 
+2.36.1
 

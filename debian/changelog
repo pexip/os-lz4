@@ -1,3 +1,19 @@
+lz4 (1.9.4-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update d/patches.
+    - Drop d/patches/0005-CVE-2021-3520.patch.
+    - Refresh d/patches.
+  * Update symboles file.
+  * Update d/copyright.
+  * Update d/control.
+    - Add 'Rules-Requires-Root: no'.
+    - Update Homepage field.
+    - Update Standards-Version to 4.6.1.
+  * d/watch: Update to version 4.
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Sun, 28 Aug 2022 12:00:55 +0900
+
 lz4 (1.9.3-2pexip3) pexip-bullseye; urgency=medium
 
   * Bullseye rebuild for ARM64 inclusion
