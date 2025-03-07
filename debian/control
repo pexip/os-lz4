@@ -1,7 +1,12 @@
 Source: lz4
 Priority: optional
 Maintainer: Nobuhiro Iwamatsu <iwamatsu@debian.org>
-Build-Depends: debhelper-compat (= 13), python3:any <!nocheck>
+Build-Depends:
+ debhelper-compat (= 13),
+ python3:any <!nocheck>,
+ cmake (>= 2.8.12),
+ libxxhash-dev,
+ pkgconf
 Standards-Version: 4.6.1
 Section: utils
 Rules-Requires-Root: no
@@ -12,7 +17,7 @@ Vcs-Git: https://salsa.debian.org/debian/lz4.git
 Package: liblz4-dev
 Section: libdevel
 Architecture: any
-Depends: liblz4-1 (= ${binary:Version}), ${misc:Depends}
+Depends: liblz4-1 (= ${binary:Version}), libxxhash-dev, ${misc:Depends}
 Multi-Arch: same
 Description: Fast LZ compression algorithm library - development files
  LZ4 is a very fast lossless compression algorithm, providing compression speed
@@ -43,9 +48,6 @@ Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}, liblz4-1 (= ${binary:Version})
 Multi-Arch: foreign
-Provides: liblz4-tool
-Replaces: liblz4-tool (<< 1.8.0-1)
-Conflicts: liblz4-tool (<< 1.8.0-1)
 Description: Fast LZ compression algorithm library - tool
  LZ4 is a very fast lossless compression algorithm, providing compression speed
  at 400 MB/s per core, scalable with multi-cores CPU. It also features an
@@ -53,17 +55,3 @@ Description: Fast LZ compression algorithm library - tool
  reaching RAM speed limits on multi-core systems.
  .
  This package contains files that is tool using liblz4.
-
-Package: liblz4-tool
-Architecture: all
-Section: oldlibs
-Depends:
- lz4,
- ${misc:Depends},
-Description: Fast LZ compression algorithm library - transitional package
- LZ4 is a very fast lossless compression algorithm, providing compression speed
- at 400 MB/s per core, scalable with multi-cores CPU. It also features an
- extremely fast decoder, with speed in multiple GB/s per core, typically
- reaching RAM speed limits on multi-core systems.
- .
- This is a transitional package. It can be safely removed.

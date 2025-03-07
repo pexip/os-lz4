@@ -1,0 +1,35 @@
+From 147ac0263844d9303c1b81f3e270a640946262c5 Mon Sep 17 00:00:00 2001
+From: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+Date: Fri, 7 Mar 2025 16:24:22 +0900
+Subject: [PATCH] Create softlink for lz4c
+
+Signed-off-by: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+---
+ build/cmake/CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/build/cmake/CMakeLists.txt b/build/cmake/CMakeLists.txt
+index 5c7dcbcc..f6d52a70 100644
+--- a/build/cmake/CMakeLists.txt
++++ b/build/cmake/CMakeLists.txt
+@@ -222,7 +222,7 @@ if(NOT LZ4_BUNDLED_MODE)
+ 
+   # Install lz4cat and unlz4 symlinks on Unix systems
+   if(UNIX AND LZ4_BUILD_CLI)
+-    foreach(cli_tool IN ITEMS lz4cat unlz4)
++    foreach(cli_tool IN ITEMS lz4cat unlz4 lz4c)
+       # Create a custom target for the symlink creation
+       add_custom_target("create_${cli_tool}_symlink" ALL
+         COMMAND ${CMAKE_COMMAND} -E create_symlink
+@@ -237,7 +237,7 @@ if(NOT LZ4_BUNDLED_MODE)
+     endforeach()
+ 
+     # create manpage aliases
+-    foreach(f lz4cat unlz4)
++    foreach(f lz4cat unlz4 lz4c)
+       file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/${f}.1" ".so man1/lz4.1\n")
+       install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${f}.1"
+         DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
+-- 
+2.47.2
+

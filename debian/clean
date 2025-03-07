@@ -1,0 +1,2 @@
+examples/Makefile.lz4s-1024
+tests/decompress-partial-usingDict
