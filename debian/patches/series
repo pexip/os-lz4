@@ -1,2 +1,2 @@
-0001-Fix-static-link.patch
-0002-Change-optimize-to-O2.patch
+use-system-xxhash.patch
+Create-softlink-for-lz4c.patch
